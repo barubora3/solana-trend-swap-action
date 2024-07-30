@@ -5,6 +5,7 @@ import {
   actionsSpecOpenApiPostResponse,
 } from '../openapi';
 import jupiterApi from '../../api/jupiter-api';
+import { SITE_URL } from '../config';
 import {
   ActionError,
   ActionGetResponse,
@@ -22,7 +23,6 @@ const US_DOLLAR_FORMATTING = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   maximumFractionDigits: 0,
 });
-const SITE_URL = 'https://tenden.ngrok.app';
 
 const app = new OpenAPIHono();
 

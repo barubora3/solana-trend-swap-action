@@ -1,7 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi';
 
 const app = new OpenAPIHono();
-const API_KEY = 'CG-WjPcpcvwpAzvDFKJhgCW5HXj';
 
 const CoinSchema = z.object({
   name: z.string(),
