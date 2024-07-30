@@ -22,7 +22,7 @@ const US_DOLLAR_FORMATTING = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   maximumFractionDigits: 0,
 });
-const SITE_URL = 'https://5ea2f724ac0f.ngrok.app';
+const SITE_URL = 'https://tenden.ngrok.app';
 
 const app = new OpenAPIHono();
 
@@ -76,7 +76,7 @@ app.openapi(
     // priceIncreaseだけどシンプルに価格を指定
     const priceIncrease = tokenInfo[0].current_price;
     const imageUrl = `${SITE_URL}/api/generate-image?symbol=${token}&iconUrl=${encodeURIComponent(tokenIconUrl)}&percentageIncrease=${percentageIncrease}&priceIncrease=${priceIncrease}`;
-
+    console.log(imageUrl);
     if (!inputTokenMeta || !outputTokenMeta) {
       return c.json(
         {
