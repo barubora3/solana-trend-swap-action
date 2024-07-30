@@ -1,5 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi';
 import jupiterApi from '../../api/jupiter-api'; // JupiterのAPIパスを適切に調整してください
+import { SITE_URL } from '../config';
 
 const app = new OpenAPIHono();
 
@@ -12,9 +13,7 @@ const SwapPathSchema = z.object({
   swap_path: z.string(),
 });
 
-const ResponseSchema = z.object({
-  swap_paths: z.array(SwapPathSchema),
-});
+const ResponseSchema = z.array(SwapPathSchema);
 
 const ErrorResponseSchema = z.object({
   error: z.string(),
@@ -93,7 +92,7 @@ app.openapi(
               price_change_percentage_24h: coin.price_change_percentage_24h,
               current_price: coin.current_price,
               // swap_path: `/api/jupiter/swap/${coin.symbol.toUpperCase()}/${doubleEncodedIconUrl}/${percentageIncrease}/${priceIncrease}`,
-              swap_path: `/api/jupiter/swap/${coin.id}`,
+              swap_path: `${SITE_URL}/api/jupiter/swap/${coin.id}`,
             };
           } catch (error) {
             console.error(`Error processing ${coin.symbol}:`, error);
@@ -110,9 +109,7 @@ app.openapi(
         )
         .slice(0, 5); // 上位5つのコインのみを返す
 
-      const validatedResponse = ResponseSchema.parse({
-        swap_paths: swapPaths,
-      });
+      const validatedResponse = ResponseSchema.parse(swapPaths);
       return c.json(validatedResponse);
     } catch (error) {
       console.error('Error fetching data:', error);
