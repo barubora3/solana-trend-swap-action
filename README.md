@@ -1,58 +1,85 @@
-# @dialectlabs/actions
+# Solana Meme Swap Action
 
-This repository contains reference implementations of Solana Actions using [Hono](https://hono.dev/).
+## サービス概要
 
-## Getting Started
+今アツいミームコインをX上ですぐさま購入するActions！(理想)
 
-First, run the development server:
+自作のActionsをX上で動くようにするには申請してホワイトリストに登録してもらう必要があるため、実際に出来たのはテスト環境での動作まで
+そのためXへの投稿機能は無く、以下の主要2機能までを実装
 
-```bash
-npm install
-npm run dev
+1. CoinGecko APIを使ったSolanaミームコインのトレンド情報の抽出をするAPI
+2. 指定したトークンとUSDTをJupiterでSwapするためのActions
+
+
+## 利用方法
+1. 直近24Hで価格上昇率の高いSolana上のミームコイン情報を取得するAPIを実行する
+   
+```https://tenden.ngrok.app/api/get-post-target```
+
+Exampe Response
+```
+[
+{
+id: "time",
+name: "TIME",
+symbol: "TIME",
+price_change_percentage_24h: 19.55685,
+current_price: 0.00003243,
+swap_path: "https://tenden.ngrok.app/api/jupiter/swap/time"
+},
+{
+id: "chudjak",
+name: "Chudjak",
+symbol: "CHUD",
+price_change_percentage_24h: 19.02422,
+current_price: 0.01166532,
+swap_path: "https://tenden.ngrok.app/api/jupiter/swap/chudjak"
+},
+{
+id: "giko-cat",
+name: "Giko Cat",
+symbol: "GIKO",
+price_change_percentage_24h: 15.34833,
+current_price: 1.097,
+swap_path: "https://tenden.ngrok.app/api/jupiter/swap/giko-cat"
+},
+{
+id: "jeo-boden",
+name: "Jeo Boden",
+symbol: "BODEN",
+price_change_percentage_24h: 8.73053,
+current_price: 0.01007706,
+swap_path: "https://tenden.ngrok.app/api/jupiter/swap/jeo-boden"
+},
+{
+id: "tooker-kurlson",
+name: "tooker kurlson",
+symbol: "TOOKER",
+price_change_percentage_24h: 6.73958,
+current_price: 0.01974664,
+swap_path: "https://tenden.ngrok.app/api/jupiter/swap/tooker-kurlson"
+}
+]
 ```
 
-## Presets
+2. Dialectにアクセスる
+```https://dial.to/```
 
-### Tensor Buy Floor
+3. URL入力欄に1で取得した`swap_path`を入力し、Submitを押す
+![alt text](image-3.png)
 
-- Place your api key to `TENSOR_API_KEY` constant in tensor-api.ts
+4. Actionsのプレビューが表示される
+![alt text](image-4.png)
 
-## How To
+5. トークン購入に支払う金額($USDC)を選択 or 入力し、トランザクションを確認
+![alt text](image-2.png)
 
-### Actions Development
+6. 確認ボタンを押下してトランザクションが実行できる
+![alt text](image-5.png)
 
-1. See [Jupiter Swap Action example](examples/jupiter-swap/route.ts)
-2. Build your own action
-   - Use specified openapi `responses` from [openapi.ts](examples/openapi.ts) for your POST, GET methods
-   - Use specified openapi `body` from [openapi.ts](examples/openapi.ts) for your POST methods
-3. Add your router to [index.ts](examples/index.ts)
 
 ### Swagger UI
+https://tenden.ngrok.app/swagger-ui
 
-Open [http://localhost:3000/swagger-ui](http://localhost:3000/swagger-ui) with your browser to explore actions.
-
-### Unfurl action into a Blink
-
-To check and unfurl your or existing action open
-[https://actions.dialect.to/](https://actions.dialect.to/)  
-e.g action for swap on Jupiter: <localhost:3000/api/jupiter/swap/SOL-Bonk>
-
-## Examples in this repo
-
-There is a simple donate action as well as a memo action in this repo which serves as a template for creating your own actions.
-
-There are also a few example actions in this repository for [Jupiter](examples/jupiter-swap/route.ts) (swap), [Helius](examples/helius/stake/route.ts) (stake), [Meteora](examples/meteora/swap/route.ts) (swap), [Sanctum](examples/sanctum/trade/route.ts) (stake), and [Tensor](examples/tensor) (buy floor or bid).
-
-You can find the code for these actions in the [examples](examples) directory.
-
-You can also unfurl these actions into Blinks on https://dial.to by entering the action URL into the Blink URL field.
-
-For example, to unfurl the Helius stake action, you would enter the following URL into the Blink URL field:
-
-`http://localhost:3000/api/helius/stake`
-
-## Learn More
-
-To learn more about Hono, take a look at the following resources:
-
-- [Hono Documentation](https://hono.dev/docs/) - learn about Hono features and API.
+## 参考
+https://github.com/dialectlabs/actions/tree/main
